@@ -11,7 +11,7 @@ public class ElevatorHistoryService {
     RestTemplate restTemplate;
 
     public String saveTravelInfo(Long hotelId, Long elevatorId, Integer floorsTravelled) {
-        return restTemplate.getForObject("http://history-service:8083/history-service/hotel/"+hotelId+"/elevator/"+elevatorId+"/travelled/"+floorsTravelled,
+        return restTemplate.getForObject("http://history-service:9002/history-service/hotel/"+hotelId+"/elevator/"+elevatorId+"/travelled/"+floorsTravelled,
                 String.class);
     }
 }

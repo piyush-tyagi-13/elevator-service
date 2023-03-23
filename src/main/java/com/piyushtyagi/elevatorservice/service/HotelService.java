@@ -12,6 +12,6 @@ public class HotelService {
     RestTemplate restTemplate;
 
     public Hotel getHotelInfo(Long id) {
-        return this.restTemplate.getForObject("http://hotel-service:8081/hotel-service/hotel/1", Hotel.class);
+        return this.restTemplate.getForObject("http://hotel-service:9001/hotel-service/hotel/1", Hotel.class);
     }
 }
