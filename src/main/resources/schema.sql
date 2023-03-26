@@ -6,3 +6,10 @@ CREATE TABLE IF NOT EXISTS elevator (
     is_restricted BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS hotel (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    num_floors INT NOT NULL,
+    PRIMARY KEY (id)
+);

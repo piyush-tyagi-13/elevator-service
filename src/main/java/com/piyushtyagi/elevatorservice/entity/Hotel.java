@@ -2,6 +2,9 @@ package com.piyushtyagi.elevatorservice.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "hotel")
 public class Hotel {
@@ -15,6 +18,9 @@ public class Hotel {
 
     @Column(name = "num_floors")
     private int totalFloors;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Elevator> elevators = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -38,5 +44,13 @@ public class Hotel {
 
     public void setTotalFloors(int totalFloors) {
         this.totalFloors = totalFloors;
+    }
+
+    public List<Elevator> getElevators() {
+        return elevators;
+    }
+
+    public void setElevators(List<Elevator> elevators) {
+        this.elevators = elevators;
     }
 }
