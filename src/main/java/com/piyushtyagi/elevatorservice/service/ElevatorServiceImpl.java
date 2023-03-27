@@ -14,10 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.piyushtyagi.elevatorservice.Constants.ElevatorPlatformConstants.HISTORY_SUCCESS;
+import static com.piyushtyagi.elevatorservice.Constants.ElevatorPlatformConstants.TRY_AGAIN_LATER;
 
 @Service
 public class ElevatorServiceImpl implements ElevatorService {
@@ -33,7 +36,11 @@ public class ElevatorServiceImpl implements ElevatorService {
 
     @Override
     public String moveToFloor(Long hotelId, Long elevatorId, Integer targetFloor) throws Exception {
-        int totalFloors = hotelService.getHotelInfo(hotelId).getTotalFloors();
+        Hotel hotel = hotelService.getHotelInfo(hotelId);
+        if(Objects.isNull(hotel)) {
+            return "Hotel Service is not responding. Operation failed.";
+        }
+        int totalFloors = hotel.getTotalFloors();
         if(targetFloor>totalFloors) {
             throw new IllegalArgumentException("Target floor number exceeds max floors in Hotel!");
         }
@@ -59,8 +66,13 @@ public class ElevatorServiceImpl implements ElevatorService {
         //traversal is complete
 
         //logging movement in history table
-        elevatorHistoryService.saveTravelInfo(hotelId, elevatorId, distance);
-        return "Elevator traversal complete!";
+        String elevatorHistoryServiceResponse = elevatorHistoryService.saveTravelInfo(hotelId, elevatorId, distance);
+        if(elevatorHistoryServiceResponse.equals(HISTORY_SUCCESS)) {
+            return "Elevator traversal complete!";
+        } else if (elevatorHistoryServiceResponse.equals(TRY_AGAIN_LATER)) {
+            return "Elevator traversal complete. Unable to save travel history.";
+        }
+        return "Unknown Error";
     }
 
     private static void elevatorAvailabilityCheck(Elevator elevator) throws Exception {
@@ -75,7 +87,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         Elevator elevator = elevatorRepository.findById(elevatorId).get();
         response.setHotelId(String.valueOf(elevator.getHotel().getId()));
         response.setElevatorId(String.valueOf(elevator.getId()));
-        response.setCurrentFloor(String.valueOf(elevator.getCurrentFloor()));
+        response.setStatus(String.valueOf(elevator.getCurrentFloor()));
         return response;
     }
 

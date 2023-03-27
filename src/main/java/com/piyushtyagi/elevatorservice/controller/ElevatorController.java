@@ -1,15 +1,9 @@
 package com.piyushtyagi.elevatorservice.controller;
 
-import com.piyushtyagi.elevatorservice.entity.Elevator;
-import com.piyushtyagi.elevatorservice.entity.Hotel;
 import com.piyushtyagi.elevatorservice.models.TraverseElevatorRequest;
 import com.piyushtyagi.elevatorservice.models.ElevatorStatusResponse;
 import com.piyushtyagi.elevatorservice.service.ElevatorService;
 import com.piyushtyagi.elevatorservice.service.HotelService;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/elevator-service")
@@ -36,7 +29,7 @@ public class ElevatorController {
         ElevatorStatusResponse resp = new ElevatorStatusResponse();
         resp.setHotelId(req.getHotelId());
         resp.setElevatorId(req.getElevatorId());
-        resp.setCurrentFloor(elevatorService.moveToFloor(Long.parseLong(req.getHotelId()), Long.parseLong(req.getElevatorId()), Integer.parseInt(req.getFloorNumber())));
+        resp.setStatus(elevatorService.moveToFloor(Long.parseLong(req.getHotelId()), Long.parseLong(req.getElevatorId()), Integer.parseInt(req.getFloorNumber())));
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 

@@ -4,14 +4,14 @@ public class ElevatorStatusResponse {
 
     String hotelId;
     String elevatorId;
-    String currentFloor;
+    String status;
 
-    public String getCurrentFloor() {
-        return currentFloor;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCurrentFloor(String currentFloor) {
-        this.currentFloor = currentFloor;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getHotelId() {
